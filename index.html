@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="SaveSmart Toolkit — free everyday money calculators for budgeting, debt payoff, loans, savings, subscriptions, tips and more.">
+<meta name="robots" content="index, follow">
+<title>SaveSmart Toolkit — Free Money Calculators</title>
+<style>
+:root{--bg:#f7f8fb;--card:#fff;--text:#172033;--muted:#667085;--line:#e4e7ec;--accent:#155eef;--accent2:#0b7a4b;--soft:#eef4ff;--shadow:0 10px 30px rgba(16,24,40,.07)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;line-height:1.5}
+.container{width:min(1120px,92%);margin:auto}.top{padding:46px 0 30px;text-align:center}.badge{display:inline-block;background:var(--soft);color:var(--accent);font-size:12px;font-weight:800;letter-spacing:.08em;padding:7px 11px;border-radius:999px}.top h1{font-size:clamp(36px,7vw,62px);line-height:1.05;margin:13px 0 12px}.top p{max-width:760px;margin:auto;color:var(--muted);font-size:18px}.note{margin:22px auto 0;max-width:720px;color:var(--muted);font-size:13px}
+.tools{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin:18px 0 28px}.tool{border:1px solid var(--line);background:var(--card);border-radius:16px;padding:16px;text-align:left;cursor:pointer;box-shadow:0 2px 8px rgba(16,24,40,.03);transition:.15s}.tool:hover{transform:translateY(-2px);box-shadow:var(--shadow)}.tool.active{border:2px solid var(--accent);padding:15px}.icon{font-size:26px}.tool b{display:block;margin-top:7px}.tool small{display:block;color:var(--muted);margin-top:3px}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:26px;box-shadow:var(--shadow);margin-bottom:30px}.panel h2{margin:0 0 5px;font-size:27px}.desc{color:var(--muted);margin:0 0 20px}.form{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:15px}.field label{display:block;font-size:13px;font-weight:750;margin-bottom:7px}.field input{width:100%;padding:12px 13px;border:1px solid #cfd5df;border-radius:11px;font-size:16px;outline:none;background:#fff}.field input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(21,94,239,.1)}button.calc{margin-top:18px;border:0;border-radius:11px;background:var(--accent);color:white;font-weight:800;padding:13px 20px;font-size:15px;cursor:pointer}.result{margin-top:18px;background:#f5f8ff;border:1px solid #d9e5ff;border-radius:15px;padding:18px;font-size:16px}.result strong{font-size:25px;color:var(--accent)}.error{color:#b42318}
+.features{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-bottom:40px}.feature{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px}.feature b{display:block;margin-bottom:6px}.feature span{color:var(--muted);font-size:14px}
+footer{border-top:1px solid var(--line);padding:28px 0 40px;color:var(--muted);font-size:12px;text-align:center}
+@media(max-width:600px){.top{padding-top:30px}.panel{padding:19px}.tools{grid-template-columns:repeat(2,1fr)}.tool{padding:13px}.tool.active{padding:12px}}
+</style>
+</head>
+<body>
+<header class="top container">
+  <span class="badge">🇺🇸 MADE FOR EVERYDAY U.S. MONEY DECISIONS</span>
+  <h1>SaveSmart Toolkit</h1>
+  <p>Free, simple calculators to help you budget, save, compare prices, manage debt and understand everyday money decisions.</p>
+  <div class="note">No account required. Results are estimates for educational purposes — not financial, tax or legal advice.</div>
+</header>
+
+<main class="container">
+  <section class="tools" id="tools"></section>
+  <section class="panel">
+    <h2 id="title"></h2><p class="desc" id="desc"></p>
+    <div id="app"></div>
+  </section>
+
+  <section class="features">
+    <div class="feature"><b>⚡ Fast & simple</b><span>Get a useful estimate without opening a complicated spreadsheet.</span></div>
+    <div class="feature"><b>🔒 Privacy-friendly</b><span>Calculations happen in your browser. This page does not need an account.</span></div>
+    <div class="feature"><b>🇺🇸 U.S.-friendly</b><span>Dollar amounts, monthly bills, tips, debt and salary examples are built in.</span></div>
+    <div class="feature"><b>💡 Educational</b><span>Use the numbers as a starting point and verify important financial decisions.</span></div>
+  </section>
+</main>
+
+<footer>
+  SaveSmart Toolkit • Free calculators for everyday money decisions<br>
+  Estimates only. For important financial decisions, consult a qualified professional.
+</footer>
+
+<script>
+const tools=[
+{id:"unit",icon:"🛒",name:"Unit Price",sub:"Compare the real cost of products",fields:[["p1","Product A price ($)",20],["q1","Product A quantity",16],["p2","Product B price ($)",18],["q2","Product B quantity",12]]},
+{id:"budget",icon:"📊",name:"50/30/20 Budget",sub:"Create a simple monthly plan",fields:[["income","Monthly take-home pay ($)",4000]]},
+{id:"debt",icon:"💰",name:"Debt Payoff",sub:"Estimate payoff time",fields:[["balance","Debt balance ($)",5000],["apr","APR (%)",24],["payment","Monthly payment ($)",250]]},
+{id:"loan",icon:"🏠",name:"Loan Payment",sub:"Estimate monthly loan payments",fields:[["principal","Loan amount ($)",25000],["rate","APR (%)",7],["years","Term (years)",5]]},
+{id:"savings",icon:"🎯",name:"Savings Goal",sub:"Plan how much to save each month",fields:[["goal","Savings goal ($)",5000],["saved","Already saved ($)",1000],["months","Months to goal",12]]},
+{id:"subscription",icon:"💳",name:"Subscription Audit",sub:"Find recurring money leaks",fields:[["monthly","Monthly subscriptions ($)",75]]},
+{id:"discount",icon:"🏷️",name:"Discount Calculator",sub:"See sale price and savings",fields:[["price","Original price ($)",100],["discount","Discount (%)",20]]},
+{id:"tip",icon:"🍽️",name:"Tip Calculator",sub:"Calculate and split a tip",fields:[["bill","Bill total ($)",80],["tip","Tip (%)",20],["people","People",2]]},
+{id:"emergency",icon:"🛟",name:"Emergency Fund",sub:"Estimate a target fund",fields:[["expenses","Essential monthly expenses ($)",2500],["months","Target months",3]]},
+{id:"hourly",icon:"⏱️",name:"Salary → Hourly",sub:"Convert annual salary to hourly",fields:[["salary","Annual salary ($)",60000],["hours","Hours per week",40],["weeks","Work weeks per year",52]]},
+{id:"compound",icon:"📈",name:"Compound Growth",sub:"Explore long-term growth estimates",fields:[["initial","Starting amount ($)",1000],["monthly","Monthly contribution ($)",200],["rate","Annual return (%)",7],["years","Years",10]]},
+{id:"networth",icon:"🧮",name:"Net Worth",sub:"Assets minus debts",fields:[["assets","Total assets ($)",50000],["debts","Total debts ($)",20000]]}
+];
+
+const $=id=>document.getElementById(id), money=x=>new Intl.NumberFormat("en-US",{style:"currency",currency:"USD"}).format(x);
+
+function num(id){
+  let v=Number($(id).value);
+  return isFinite(v)&&v>0?v:0;
+}
+
+function renderCards(){
+  $("tools").innerHTML=tools.map((t,i)=>`<button class="tool ${i===0?"active":""}" data-id="${t.id}"><span class="icon">${t.icon}</span><b>${t.name}</b><small>${t.sub}</small></button>`).join("");
+  document.querySelectorAll(".tool").forEach(b=>b.onclick=()=>{
+    document.querySelectorAll(".tool").forEach(x=>x.classList.remove("active"));
+    b.classList.add("active");
+    render(b.dataset.id);
+    $("title").scrollIntoView({behavior:"smooth",block:"start"});
+  });
+}
+
+function render(id){
+  let t=tools.find(x=>x.id===id);
+  $("title").textContent=t.icon+" "+t.name;
+  $("desc").textContent=t.sub;
+  $("app").innerHTML=`<div class="form">${t.fields.map(f=>`<div class="field"><label>${f[1]}</label><input id="${f[0]}" type="number" min="0" step="any" value="${f[2]}"></div>`).join("")}</div><button class="calc" onclick="calculate('${id}')">Calculate</button><div id="result"></div>`;
+}
+
+function result(s){
+  $("result").innerHTML=`<div class="result">${s}</div>`;
+}
+
+function calculate(k){
+  if(k==="unit"){
+    if(!num("q1")||!num("q2"))return result('<span class="error">Please enter quantities greater than zero.</span>');
+    let a=num("p1")/num("q1"),b=num("p2")/num("q2");
+    result(`Product A: <strong>${money(a)}</strong> per unit<br>Product B: <strong>${money(b)}</strong> per unit<br><br><b>${a<b?"Product A":"Product B"}</b> has the lower unit cost.`);
+  }
+  if(k==="budget"){
+    let x=num("income");
+    result(`Needs (50%): <strong>${money(x*.5)}</strong><br>Wants (30%): <strong>${money(x*.3)}</strong><br>Savings/debt (20%): <strong>${money(x*.2)}</strong>`);
+  }
+  if(k==="debt"){
+    let P=num("balance"),r=num("apr")/1200,p=num("payment");
+    if(!P||!p)return result('<span class="error">Enter a balance and monthly payment.</span>');
+    if(r&&p<=P*r)return result('<span class="error">The payment may not cover monthly interest. Try a higher payment.</span>');
+    let n=r?Math.log(p/(p-P*r))/Math.log(1+r):P/p;
+    if(n>600)return result('<span class="error">With this payment, payoff may take more than 50 years. Try a higher monthly payment.</span>');
+    result(`Estimated payoff: <strong>${Math.ceil(n)} months</strong><br>About ${(Math.ceil(n/12*10)/10).toFixed(1)} years.`);
+  }
+  if(k==="loan"){
+    let P=num("principal"),r=num("rate")/1200,n=num("years")*12;
+    if(!P||!n)return result('<span class="error">Enter the loan amount and term.</span>');
+    let p=r?P*r/(1-Math.pow(1+r,-n)):P/n;
+    result(`Estimated monthly payment: <strong>${money(p)}</strong><br>Total payments: ${money(p*n)}`);
+  }
+  if(k==="savings"){
+    let remain=Math.max(0,num("goal")-num("saved")),m=num("months");
+    result(`Remaining: <strong>${money(remain)}</strong><br>Monthly saving needed: <strong>${money(m?remain/m:remain)}</strong>`);
+  }
+  if(k==="subscription"){
+    let m=num("monthly");
+    result(`Monthly: <strong>${money(m)}</strong><br>Yearly: <strong>${money(m*12)}</strong>`);
+  }
+  if(k==="discount"){
+    let p=num("price"),d=num("discount");
+    if(d>100)return result('<span class="error">Discount cannot be more than 100%.</span>');
+    d=d/100;
+    result(`You save: <strong>${money(p*d)}</strong><br>Sale price: <strong>${money(p*(1-d))}</strong>`);
+  }
+  if(k==="tip"){
+    let b=num("bill"),t=num("tip")/100,n=Math.max(1,num("people"));
+    result(`Tip: <strong>${money(b*t)}</strong><br>Total: <strong>${money(b*(1+t))}</strong><br>Per person: <strong>${money(b*(1+t)/n)}</strong>`);
+  }
+  if(k==="emergency"){
+    result(`Suggested emergency-fund target: <strong>${money(num("expenses")*num("months"))}</strong>`);
+  }
+  if(k==="hourly"){
+    let total=num("hours")*num("weeks");
+    result(`Estimated hourly pay: <strong>${money(total?num("salary")/total:0)}</strong>`);
+  }
+  if(k==="compound"){
+    let P=num("initial"),c=num("monthly"),r=num("rate")/1200,n=num("years")*12;
+    let fv=r?P*Math.pow(1+r,n)+c*(Math.pow(1+r,n)-1)/r:P+c*n;
+    result(`Estimated future value: <strong>${money(fv)}</strong><br>Total contributions: ${money(P+c*n)}<br>Estimated growth: ${money(fv-(P+c*n))}`);
+  }
+  if(k==="networth"){
+    result(`Estimated net worth: <strong>${money(num("assets")-num("debts"))}</strong>`);
+  }
+}
+
+renderCards();
+render("unit");
+</script>
+</body>
+</html>

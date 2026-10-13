@@ -468,6 +468,17 @@ const tools=[
     ]
   },
   {
+    id:"mortgage",
+    icon:"🏠",
+    name:"Mortgage Calculator",
+    sub:"Estimate monthly mortgage payments",
+    fields:[
+      ["mamount","Loan amount ($)",300000],
+      ["mrate","Annual interest rate (%)",6.5],
+      ["myears","Loan term (years)",30]
+    ]
+  },
+  {
     id:"networth",
     icon:"🧮",
     name:"Net Worth",
@@ -477,8 +488,7 @@ const tools=[
       ["debts","Total debts ($)",20000]
     ]
   }
-];
-  const $=id=>document.getElementById(id);
+];const $=id=>document.getElementById(id);
 
 const money=x=>
   new Intl.NumberFormat(
@@ -721,6 +731,35 @@ function calculate(k){
     `);
   }
 
+  if(k==="mortgage"){
+    let P=num("mamount");
+    let annualRate=num("mrate");
+    let years=num("myears");
+
+    if(!P||!years){
+      return result(
+        '<span class="error">Enter a valid loan amount and loan term.</span>'
+      );
+    }
+
+    let r=annualRate/1200;
+    let n=years*12;
+    let payment=r===0?P/n:P*r/(1-Math.pow(1+r,-n));
+    let total=payment*n;
+    let interest=total-P;
+
+    result(`
+      Estimated monthly payment:
+      <strong>${money(payment)}</strong><br><br>
+      Total principal and interest:
+      ${money(total)}<br>
+      Estimated total interest:
+      ${money(interest)}<br>
+      Number of payments:
+      ${n}
+    `);
+  }
+
   if(k==="networth"){
     result(`
       Estimated net worth:
@@ -735,3 +774,4 @@ render("unit");
 
 </body>
 </html>
+  

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="SaveSmart Toolkit — free everyday money calculators for budgeting, debt payoff, loans, savings, subscriptions, tips and more.">
+<meta name="description" content="SaveSmart Toolkit — free everyday money calculators for budgeting, debt payoff, loans, savings, subscriptions, tips, mortgages, sales tax, VAT and more.">
 <meta name="robots" content="index, follow">
 <title>SaveSmart Toolkit — Free Money Calculators</title>
 <meta name="google-site-verification" content="gK7Rp7EIX00Cneq6MQTw9wQEb5-1jw7xC1B6b-wgSIk" />
@@ -278,10 +278,11 @@ footer a:hover{
 }
 </style>
 </head>
+
 <body>
 
 <header class="top container">
-  <span class="badge">🇺🇸 MADE FOR EVERYDAY U.S. MONEY DECISIONS</span>
+  <span class="badge">🌍 MADE FOR EVERYDAY MONEY DECISIONS</span>
 
   <h1>SaveSmart Toolkit</h1>
 
@@ -324,8 +325,8 @@ footer a:hover{
     </div>
 
     <div class="feature">
-      <b>🇺🇸 U.S.-friendly</b>
-      <span>Dollar amounts, monthly bills, tips, debt and salary examples are built in.</span>
+      <b>🌍 International</b>
+      <span>Useful for the U.S., Canada, UK, Europe, Australia, New Zealand and other countries.</span>
     </div>
 
     <div class="feature">
@@ -479,6 +480,16 @@ const tools=[
     ]
   },
   {
+    id:"salestax",
+    icon:"🌍",
+    name:"Sales Tax & VAT",
+    sub:"Calculate tax for many countries",
+    fields:[
+      ["stprice","Item price",100],
+      ["strate","Tax rate (%)",20]
+    ]
+  },
+  {
     id:"networth",
     icon:"🧮",
     name:"Net Worth",
@@ -488,7 +499,9 @@ const tools=[
       ["debts","Total debts ($)",20000]
     ]
   }
-];const $=id=>document.getElementById(id);
+];
+
+const $=id=>document.getElementById(id);
 
 const money=x=>
   new Intl.NumberFormat(
@@ -760,6 +773,27 @@ function calculate(k){
     `);
   }
 
+  if(k==="salestax"){
+    let price=num("stprice");
+    let rate=num("strate");
+
+    if(rate>100){
+      return result(
+        '<span class="error">Tax rate cannot be more than 100%.</span>'
+      );
+    }
+
+    let tax=price*rate/100;
+    let total=price+tax;
+
+    result(`
+      Tax amount: <strong>${money(tax)}</strong><br>
+      Final price including tax: <strong>${money(total)}</strong><br>
+      Original price: ${money(price)}<br>
+      Tax rate: ${rate}%
+    `);
+  }
+
   if(k==="networth"){
     result(`
       Estimated net worth:
@@ -774,4 +808,3 @@ render("unit");
 
 </body>
 </html>
-  

@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Free Sales Tax and VAT Calculator for the U.S., Canada, UK, Europe, Australia, New Zealand and other countries. Calculate final price, tax amount and total instantly.">
+<meta name="robots" content="index, follow">
+<title>Sales Tax & VAT Calculator — Free International Tax Calculator</title>
+<meta name="google-site-verification" content="gK7Rp7EIX00Cneq6MQTw9wQEb5-1jw7xC1B6b-wgSIk" />
+
+<style>
+:root{
+  --bg:#f7f8fb;
+  --card:#fff;
+  --text:#172033;
+  --muted:#667085;
+  --line:#e4e7ec;
+  --accent:#155eef;
+  --soft:#eef4ff;
+  --shadow:0 10px 30px rgba(16,24,40,.07);
+}
+
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+  line-height:1.5;
+}
+
+.container{
+  width:min(900px,92%);
+  margin:auto;
+}
+
+.top{
+  padding:46px 0 28px;
+  text-align:center;
+}
+
+.badge{
+  display:inline-block;
+  background:var(--soft);
+  color:var(--accent);
+  font-size:12px;
+  font-weight:800;
+  letter-spacing:.08em;
+  padding:7px 11px;
+  border-radius:999px;
+}
+
+h1{
+  font-size:clamp(32px,6vw,52px);
+  line-height:1.1;
+  margin:13px 0 12px;
+}
+
+.top p{
+  max-width:720px;
+  margin:auto;
+  color:var(--muted);
+  font-size:18px;
+}
+
+.panel{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:22px;
+  padding:26px;
+  box-shadow:var(--shadow);
+  margin-bottom:28px;
+}
+
+h2{
+  margin:0 0 6px;
+  font-size:26px;
+}
+
+.desc{
+  color:var(--muted);
+  margin:0 0 20px;
+}
+
+.form{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:15px;
+}
+
+label{
+  display:block;
+  font-size:13px;
+  font-weight:750;
+  margin-bottom:7px;
+}
+
+input,select{
+  width:100%;
+  padding:12px 13px;
+  border:1px solid #cfd5df;
+  border-radius:11px;
+  font-size:16px;
+  outline:none;
+  background:#fff;
+}
+
+input:focus,select:focus{
+  border-color:var(--accent);
+  box-shadow:0 0 0 3px rgba(21,94,239,.1);
+}
+
+button{
+  margin-top:18px;
+  border:0;
+  border-radius:11px;
+  background:var(--accent);
+  color:white;
+  font-weight:800;
+  padding:13px 20px;
+  font-size:15px;
+  cursor:pointer;
+}
+
+.result{
+  margin-top:18px;
+  background:#f5f8ff;
+  border:1px solid #d9e5ff;
+  border-radius:15px;
+  padding:18px;
+  font-size:16px;
+}
+
+.result strong{
+  font-size:25px;
+  color:var(--accent);
+}
+
+.error{
+  color:#b42318;
+}
+
+.info{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:20px;
+  margin-bottom:28px;
+}
+
+.info h2{
+  font-size:22px;
+}
+
+.info p{
+  color:var(--muted);
+}
+
+footer{
+  border-top:1px solid var(--line);
+  padding:28px 0 40px;
+  color:var(--muted);
+  font-size:12px;
+  text-align:center;
+}
+
+footer a{
+  color:var(--accent);
+  text-decoration:none;
+  font-weight:700;
+  margin:0 7px;
+}
+
+@media(max-width:600px){
+  .panel{
+    padding:19px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header class="top container">
+  <span class="badge">🌍 SALES TAX & VAT CALCULATOR</span>
+
+  <h1>Sales Tax & VAT Calculator</h1>
+
+  <p>
+    Calculate sales tax, VAT or GST for the United States, Canada, United Kingdom,
+    Europe, Australia, New Zealand and many other countries.
+  </p>
+</header>
+
+<main class="container">
+
+  <section class="panel">
+    <h2>Calculate tax and final price</h2>
+    <p class="desc">
+      Enter the item price, choose your country or currency, and enter the applicable tax rate.
+    </p>
+
+    <div class="form">
+      <div>
+        <label for="country">Country / region</label>
+        <select id="country">
+          <option value="USD|$">United States — USD ($)</option>
+          <option value="CAD|C$">Canada — CAD (C$)</option>
+          <option value="GBP|£">United Kingdom — GBP (£)</option>
+          <option value="EUR|€">Germany — EUR (€)</option>
+          <option value="EUR|€">France — EUR (€)</option>
+          <option value="EUR|€">Netherlands — EUR (€)</option>
+          <option value="EUR|€">Spain — EUR (€)</option>
+          <option value="EUR|€">Italy — EUR (€)</option>
+          <option value="EUR|€">Ireland — EUR (€)</option>
+          <option value="AUD|A$">Australia — AUD (A$)</option>
+          <option value="NZD|NZ$">New Zealand — NZD (NZ$)</option>
+          <option value="CHF|CHF">Switzerland — CHF</option>
+          <option value="NOK|kr">Norway — NOK (kr)</option>
+          <option value="SEK|kr">Sweden — SEK (kr)</option>
+          <option value="DKK|kr">Denmark — DKK (kr)</option>
+          <option value="Other|$">Other country</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="price">Item price</label>
+        <input id="price" type="number" min="0" step="any" value="100">
+      </div>
+
+      <div>
+        <label for="rate">Sales tax / VAT / GST rate (%)</label>
+        <input id="rate" type="number" min="0" step="any" value="20">
+      </div>
+    </div>
+
+    <button onclick="calculateTax()">Calculate</button>
+
+    <div id="result"></div>
+  </section>
+
+  <section class="info">
+    <h2>How this calculator works</h2>
+    <p>
+      This tool calculates tax added to a pre-tax price. It works for U.S. state and local
+      sales tax, Canadian sales taxes, UK VAT, European VAT, Australian GST and New Zealand GST.
+    </p>
+    <p>
+      Tax rates vary by country, state, province, city and product category. Always check the
+      current rate for your location before making an important purchase or business decision.
+    </p>
+  </section>
+
+</main>
+
+<footer>
+  SaveSmart Toolkit • Free calculators for everyday money decisions<br>
+
+  <a href="index.html">Home</a> |
+  <a href="about.html">About</a> |
+  <a href="privacy.html">Privacy Policy</a>
+
+  <br><br>
+
+  Estimates only. Tax rules and rates may change. For important decisions, consult a qualified professional.
+</footer>
+
+<script>
+const $=id=>document.getElementById(id);
+
+function money(amount,symbol){
+  return symbol+Number(amount).toLocaleString(
+    "en-US",
+    {
+      minimumFractionDigits:2,
+      maximumFractionDigits:2
+    }
+  );
+}
+
+function calculateTax(){
+  let selected=$("country").value.split("|");
+  let symbol=selected[1];
+  let price=Number($("price").value);
+  let rate=Number($("rate").value);
+
+  if(!isFinite(price)||price<0||!isFinite(rate)||rate<0){
+    $("result").innerHTML=
+      '<div class="result"><span class="error">Please enter a valid price and tax rate.</span></div>';
+    return;
+  }
+
+  if(rate>100){
+    $("result").innerHTML=
+      '<div class="result"><span class="error">Tax rate cannot be more than 100%.</span></div>';
+    return;
+  }
+
+  let tax=price*rate/100;
+  let total=price+tax;
+
+  $("result").innerHTML=`
+    <div class="result">
+      Tax amount:
+      <strong>${money(tax,symbol)}</strong><br><br>
+      Final price including tax:
+      <strong>${money(total,symbol)}</strong><br><br>
+      Original price: ${money(price,symbol)}<br>
+      Tax rate: ${rate}%
+    </div>
+  `;
+}
+
+calculateTax();
+</script>
+
+</body>
+</html>
